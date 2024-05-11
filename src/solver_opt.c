@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int globalblockSize = 80;
+const int globalblockSize = 40;
 
 void multiply_general(double *A, double *B, double *C, int N) {
 	int bi = 0;
