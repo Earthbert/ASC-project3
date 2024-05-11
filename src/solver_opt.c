@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+const int globalblockSize = 80;
+
 void multiply_general(double *A, double *B, double *C, int N) {
 	int bi = 0;
 	int bj = 0;
@@ -13,7 +15,7 @@ void multiply_general(double *A, double *B, double *C, int N) {
 	register int i = 0;
 	register int j = 0;
 	register int k = 0;
-	int blockSize = 40;
+	int blockSize = globalblockSize;
 
 	for (bi = 0; bi < N; bi += blockSize)
 		for (bj = 0; bj < N; bj += blockSize)
@@ -34,36 +36,56 @@ void multiply_general(double *A, double *B, double *C, int N) {
 
 // A is lower triangular
 void multiply_lower_triangular(double *A, double *B, double *C, int N) {
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			register double sum = 0;
-			register double *a = A + i * N;
-			register double *b = B + j;
-			for (int k = 0; k <= i; k++) {
-				sum += *a * *b;
-				a++;
-				b += N;
-			}
-			C[i * N + j] = sum;
-		}
-	}
+	int bi = 0;
+	int bj = 0;
+	int bk = 0;
+	register int i = 0;
+	register int j = 0;
+	register int k = 0;
+	int blockSize = globalblockSize;
+
+	for (bi = 0; bi < N; bi += blockSize)
+		for (bj = 0; bj < N; bj += blockSize)
+			for (bk = 0; bk <= bi; bk += blockSize)
+				for (i = 0; i < blockSize; i++)
+					for (j = 0; j < blockSize; j++) {
+						register double sum = C[(bi + i) * N + bj + j];
+						register double *a = A + (bi + i) * N + bk;
+						register double *b = B + (bk)*N + bj + j;
+						for (k = 0; k < blockSize; k++) {
+							sum += *a * *b;
+							a++;
+							b += N;
+						}
+						C[(bi + i) * N + bj + j] = sum;
+					}
 }
 
 // B is upper triangular
 void multiply_upper_triangular(double *A, double *B, double *C, int N) {
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			register double sum = 0;
-			register double *a = A + i * N;
-			register double *b = B + j;
-			for (int k = 0; k <= j; k++) {
-				sum += *a * *b;
-				a++;
-				b += N;
-			}
-			C[i * N + j] = sum;
-		}
-	}
+	int bi = 0;
+	int bj = 0;
+	int bk = 0;
+	register int i = 0;
+	register int j = 0;
+	register int k = 0;
+	int blockSize = globalblockSize;
+
+	for (bi = 0; bi < N; bi += blockSize)
+		for (bj = 0; bj < N; bj += blockSize)
+			for (bk = 0; bk <= bj; bk += blockSize)
+				for (i = 0; i < blockSize; i++)
+					for (j = 0; j < blockSize; j++) {
+						register double sum = C[(bi + i) * N + bj + j];
+						register double *a = A + (bi + i) * N + bk;
+						register double *b = B + (bk)*N + bj + j;
+						for (k = 0; k < blockSize; k++) {
+							sum += *a * *b;
+							a++;
+							b += N;
+						}
+						C[(bi + i) * N + bj + j] = sum;
+					}
 }
 
 void transpose(double *A, int N) {
