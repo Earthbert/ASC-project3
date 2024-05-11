@@ -54,10 +54,6 @@ Run=./tema3_opt_m: N=1600: Time=11.314107
 
 ## Memorie
 
-Am primit o singură eroare ``(Syscall param msync(start) points to uninitialised byte(s))`` la versiunea optimizată, detectată de Valgrind, dar nu cred că are legătură cu implementarea mea (cel mai probabil este pentru că versiunea neoptimizată nu o are).
-
-### Memory usage
-
 ```
 BLAS: total heap usage: 80 allocs, 80 frees, 9,604,420 bytes allocated
 Ne-optimizat: total heap usage: 11 allocs, 11 frees, 8,976,980 bytes allocated

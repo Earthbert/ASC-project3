@@ -115,10 +115,12 @@ double *my_solver(int N, double *A, double *B) {
 
 	// C = At x B
 	double *C = (double *)malloc(N * N * sizeof(double));
+	memset(C, 0, N * N * sizeof(double));
 	multiply_lower_triangular(At, B, C, N);
 
 	// D = B x A
 	double *D = (double *)malloc(N * N * sizeof(double));
+	memset(D, 0, N * N * sizeof(double));
 	multiply_upper_triangular(B, A, D, N);
 
 	// C = (At × B + B x A)
@@ -129,6 +131,7 @@ double *my_solver(int N, double *A, double *B) {
 	memcpy(Bt, B, N * N * sizeof(double));
 	transpose(Bt, N);
 	double *result = (double *)malloc(N * N * sizeof(double));
+	memset(result, 0, N * N * sizeof(double));
 	multiply_general(C, Bt, result, N);
 
 	free(At);
