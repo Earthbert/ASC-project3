@@ -1,6 +1,6 @@
 # !!! Do not modify this file !!!
 CC=gcc
-CFLAGS=-Wall -Werror -O0
+CFLAGS=-Wall -Werror -O0 -pg
 LIBS=-lsatlas
 LIBDIRS=-L/usr/lib64/atlas
 
