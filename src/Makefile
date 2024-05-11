@@ -4,7 +4,7 @@ CFLAGS=-Wall -Werror -O0
 LIBS=-lsatlas
 LIBDIRS=-L/usr/lib64/atlas
 
-all: compare tema3_neopt tema3_opt_m
+all: compare tema3_blas tema3_neopt tema3_opt_m
 
 tema3_blas: solver_blas.c main.c utils.h
 	$(CC) $(CFLAGS) $^ $(LIBDIRS) $(LIBS) -o $@
